@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Committed dist must match the sources
+        run: git diff --exit-code -- dist
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+
+  smoke:
+    # Runs the real action from this checkout against public data and checks the output.
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./
+        id: statkiln
+        with:
+          username: octocat
+          output-dir: smoke-output
+          theme-light: light
+          theme-dark: midnight
+      - name: Verify generated cards
+        env:
+          FILES: ${{ steps.statkiln.outputs.files }}
+        run: |
+          echo "Generated: $FILES"
+          test "$(echo "$FILES" | tr ',' '\n' | wc -l)" -eq 8
+          for f in $(echo "$FILES" | tr ',' ' '); do
+            test -s "$f"
+            head -c 4 "$f" | grep -q '<svg'
+            ! grep -qi '<script' "$f"
+          done

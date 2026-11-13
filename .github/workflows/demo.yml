@@ -1,0 +1,48 @@
+name: Demo cards
+
+# Refreshes the cards shown in the README using StatKiln itself, with the repository owner's public data.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'action.yml'
+      - 'dist/**'
+      - '.github/workflows/demo.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: demo-cards
+  cancel-in-progress: false
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./
+        with:
+          theme-light: light
+          theme-dark: midnight
+          output-dir: assets/demo
+          timezone: Europe/Warsaw
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/demo
+          if git diff --cached --quiet; then
+            echo "Cards are up to date."
+          else
+            git commit -m "chore(demo): refresh cards"
+            git pull --rebase --autostash
+            git push
+          fi

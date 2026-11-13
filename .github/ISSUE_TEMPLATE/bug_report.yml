@@ -1,0 +1,28 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow configuration
+      description: The `with:` block of your StatKiln step (remove anything private).
+      render: yaml
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Logs never contain your token, but double check before pasting.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: StatKiln version
+      placeholder: v1.0.0

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120" role="img" aria-labelledby="t d">
+<title id="t">StatKiln</title>
+<desc id="d">StatKiln logo: a kiln-shaped mark with three bars rising inside, next to the wordmark.</desc>
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#7c9cff"/></linearGradient>
+<linearGradient id="f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fde68a"/></linearGradient>
+</defs>
+<g transform="translate(10 10)">
+<path d="M8 100V52C8 24 30 4 50 4s42 20 42 48v48z" fill="#0f1030" stroke="url(#g)" stroke-width="5" stroke-linejoin="round"/>
+<rect x="26" y="62" width="12" height="30" rx="3" fill="url(#f)"/>
+<rect x="44" y="46" width="12" height="46" rx="3" fill="url(#f)"/>
+<rect x="62" y="30" width="12" height="62" rx="3" fill="url(#f)"/>
+<rect x="2" y="98" width="96" height="6" rx="3" fill="url(#g)"/>
+</g>
+<text x="124" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="52" font-weight="800" letter-spacing="-1" fill="#7c6cf0">Stat<tspan fill="#f59e0b">Kiln</tspan></text>
+<text x="126" y="98" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" fill="#8b86b8">GitHub stats. Built, not hosted.</text>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "name": "statkiln",
+  "version": "1.0.0",
+  "description": "GitHub stats. Built, not hosted. A GitHub Action that generates static SVG stat cards for your profile.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:cli": "node scripts/build.mjs --cli",
+    "generate": "node scripts/build.mjs --cli && node dist-cli/cli.js",
+    "gallery": "node scripts/build.mjs --cli && node dist-cli/gallery.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

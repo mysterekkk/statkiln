@@ -1,0 +1,15 @@
+name: Feature request
+description: Suggest a card, theme or option
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like StatKiln to do?
+      description: Keep in mind that StatKiln generates static SVG files and has no server component.

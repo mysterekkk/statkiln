@@ -1,0 +1,25 @@
+name: Verify published action
+
+# Manually checks that the public `@v1` reference works exactly as users consume it.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: mysterekkk/statkiln@v1
+        id: statkiln
+        with:
+          username: octocat
+          output-dir: verify-output
+      - env:
+          FILES: ${{ steps.statkiln.outputs.files }}
+        run: |
+          echo "Generated: $FILES"
+          test "$(echo "$FILES" | tr ',' '\n' | wc -l)" -eq 4

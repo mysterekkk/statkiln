@@ -1,0 +1,42 @@
+# .github/workflows/statkiln.yml
+# Copy this file into the repository where the cards should live
+# (for a profile README that is the repository named after your username).
+name: StatKiln
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 3 * * *' # daily, off the full hour
+
+permissions:
+  contents: write # needed to commit the generated SVG files
+
+concurrency:
+  group: statkiln
+  cancel-in-progress: false
+
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: mysterekkk/statkiln@v1
+        with:
+          theme-light: light
+          theme-dark: midnight
+          # username defaults to the repository owner
+          # timezone: Europe/Warsaw
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/statkiln
+          if git diff --cached --quiet; then
+            echo "No changes."
+          else
+            git commit -m "chore: update StatKiln cards"
+            git push
+          fi

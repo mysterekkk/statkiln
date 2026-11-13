@@ -1,0 +1,71 @@
+name: 'StatKiln'
+description: 'Generate static SVG GitHub stats cards inside your own repository. No server, no hosting, no personal token.'
+author: 'mysterekkk'
+
+branding:
+  icon: 'bar-chart-2'
+  color: 'purple'
+
+inputs:
+  username:
+    description: 'GitHub username to generate cards for.'
+    required: false
+    default: ${{ github.repository_owner }}
+  github-token:
+    description: 'Token used to read public data from the GitHub API. The automatic GITHUB_TOKEN is enough.'
+    required: false
+    default: ${{ github.token }}
+  theme:
+    description: 'Theme: midnight, light, github-dark, aurora or minimal.'
+    required: false
+    default: 'midnight'
+  theme-light:
+    description: 'Optional. Set together with theme-dark to write <card>-light.svg and <card>-dark.svg for use in <picture>.'
+    required: false
+    default: ''
+  theme-dark:
+    description: 'Optional. See theme-light.'
+    required: false
+    default: ''
+  output-dir:
+    description: 'Directory (relative to the repository root) to write the SVG files to.'
+    required: false
+    default: 'assets/statkiln'
+  cards:
+    description: 'Comma-separated list of cards: overview, languages, streak, contributions.'
+    required: false
+    default: 'overview,languages,streak,contributions'
+  language-count:
+    description: 'Number of languages shown in the languages card (1-12).'
+    required: false
+    default: '6'
+  exclude-forks:
+    description: 'Ignore forked repositories in repo, star, fork and language totals.'
+    required: false
+    default: 'true'
+  show-border:
+    description: 'Draw a border around the cards.'
+    required: false
+    default: 'true'
+  show-icons:
+    description: 'Show icons in the overview card.'
+    required: false
+    default: 'true'
+  timezone:
+    description: 'IANA time zone used to decide what "today" is for streaks, for example Europe/Warsaw.'
+    required: false
+    default: 'UTC'
+  history-years:
+    description: 'Years of contribution history analysed for streaks (1-10).'
+    required: false
+    default: '3'
+
+outputs:
+  files:
+    description: 'Comma-separated list of generated files.'
+  changed:
+    description: '"true" if at least one file content changed.'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
